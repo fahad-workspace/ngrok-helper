@@ -16,7 +16,7 @@ module Ngrok
       attr_reader :pid, :ngrok_url, :ngrok_url_https, :status
 
       def init(params = {})
-        @params = {port: 3001, timeout: 10, config: '/dev/null'}.merge(params)
+        @params = {port: 3000, timeout: 10, config: '/dev/null'}.merge(params)
         @status = :stopped unless @status
       end
 
@@ -27,10 +27,10 @@ module Ngrok
         if stopped?
           @params[:log] = (@params[:log]) ? File.open(@params[:log], 'w+') : Tempfile.new('ngrok')
           # @pid = spawn("exec ngrok " + ngrok_exec_params)
-          @pid = spawn("exec ngrok 3000")
+          @pid = spawn("exec ngrok #{params[:port]}")
           at_exit { Ngrok::Tunnel.stop }
           @status = :running
-          fetch_urls
+          # fetch_urls
         end
 
         @ngrok_url
@@ -96,13 +96,11 @@ module Ngrok
           error = log_content.scan(/msg="command failed" err="([^"]+)"/).flatten
           unless error.empty?
             self.stop
-            raise Ngrok::Error, error.first
           end
 
           sleep 1
           @params[:log].rewind
         end
-        raise FetchUrlError, "Unable to fetch external url"
         @ngrok_url
       end
 

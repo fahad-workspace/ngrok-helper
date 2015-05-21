@@ -18,6 +18,47 @@ Or install it yourself as:
 
     $ gem install ngrok-helper
 
+## Usage
+
+```ruby
+require 'ngrok/helper'
+
+# spawn ngrok (default port 3000)
+Ngrok::Tunnel.start
+
+# ngrok local_port
+Ngrok::Tunnel.port
+=> 3000
+
+# ngrok external url
+Ngrok::Tunnel.ngrok_url
+=> "http://xxxxxxx.ngrok.com"
+
+Ngrok::Tunnel.ngrok_url_https
+=> "https://xxxxxxx.ngrok.com"
+
+Ngrok::Tunnel.running?
+=> true
+
+Ngrok::Tunnel.stopped?
+=> false
+
+# ngrok process id
+Ngrok::Tunnel.pid
+=> xxxxx
+
+# kill ngrok
+Ngrok::Tunnel.stop
+=> :stopped
+
+```
+
+```ruby
+# ngrok custom parameters
+Ngrok::Tunnel.start port: 3333
+
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
