@@ -51,9 +51,6 @@ Ngrok::Tunnel.pid
 Ngrok::Tunnel.stop
 => :stopped
 
-```
-
-```ruby
 # ngrok custom parameters
 Ngrok::Tunnel.start port: 3333
 
